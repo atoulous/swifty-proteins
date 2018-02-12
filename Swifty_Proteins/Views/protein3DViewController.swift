@@ -39,12 +39,11 @@ class protein3DViewController: UIViewController {
             gameView.allowsCameraControl = false
             gameView.addGestureRecognizer(tapgesture)
             aButton.backgroundColor = UIColor.lightGray
-        }else{
+        } else {
             gameView.allowsCameraControl = true
             gameView.removeGestureRecognizer(tapgesture)
             aButton.backgroundColor = nil
         }
-        
     }
     
     @IBAction func hydroButton(_ sender: Any) {
@@ -69,11 +68,7 @@ class protein3DViewController: UIViewController {
         }))
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         self.present(alertController, animated: true, completion: nil)
-        
-        
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +81,6 @@ class protein3DViewController: UIViewController {
         createLigand()
     }
     
-  
     func setDataInfo(){
         print(self.ligand.ligdata)
         self.chemicalIdLabel.text = self.ligand.ligdata.chemicalID
@@ -95,7 +89,6 @@ class protein3DViewController: UIViewController {
         self.formulaLabel.text = self.ligand.ligdata.formula
         self.chemicalNameLabel.text = self.ligand.ligdata.chemicalName
     }
-    
     
     func getMinMax(){
        var vectorMax = ligand.atoms[0].position
@@ -121,19 +114,13 @@ class protein3DViewController: UIViewController {
     }
     
     func changePositionInNewRpere(){
-        
          for (index,atom) in ligand.atoms.enumerated(){
             let newPos = SCNVector3(x: atom.position.x - newRepere.x, y: atom.position.y - newRepere.y, z: atom.position.z - newRepere.z)
             ligand.atoms[index].position = newPos
         }
     }
-    
-   
-  
-    
 
     func initView(){
-        
         gameView = SCNView(frame: self.view.frame)
         gameView.allowsCameraControl = true
         gameView.autoenablesDefaultLighting = true
@@ -157,7 +144,6 @@ class protein3DViewController: UIViewController {
         cameraNode.camera = SCNCamera()
     }
     
-    
     @IBAction func tapGesture(gesture: UITapGestureRecognizer){
         if gesture.state == .ended {
             let location: CGPoint = gesture.location(in: gameView)
@@ -170,8 +156,6 @@ class protein3DViewController: UIViewController {
             }
         }
     }
-    
-    
     
     func createLigand(){
         ligandNode = SCNNode()
@@ -254,9 +238,6 @@ class protein3DViewController: UIViewController {
         return hexStringToUIColor(hex:self.color[atom]!)
     }
     
-
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -272,9 +253,6 @@ class protein3DViewController: UIViewController {
         // Don't forget to reset when view is being removed
         AppUtility.lockOrientation(.all)
     }
-  
-    
-   
 }
 
 

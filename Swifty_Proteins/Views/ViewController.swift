@@ -18,12 +18,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     let searchController = UISearchController(searchResultsController: nil)
     var ligand:Ligand!
     var color: [String:String]!
-
-
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +27,11 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         filteredProteins = proteins!
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search ligands"
         proteinTableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
         self.proteinTableView.reloadData()
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -45,9 +39,9 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        if searchController.searchBar.text! == ""{
+        if searchController.searchBar.text! == "" {
             filteredProteins = proteins!
-        }else{
+        } else {
             filteredProteins = (proteins?.filter({ $0.uppercased().contains(searchController.searchBar.text!.uppercased())}))!
         }
         self.proteinTableView.reloadData()
