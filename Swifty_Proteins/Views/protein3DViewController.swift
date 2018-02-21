@@ -135,7 +135,13 @@ class protein3DViewController: UIViewController {
                             }else if l.range(of:"chemicalID") != nil {
                                 var s = l.components(separatedBy: "<ligand ")
                                 let t = s[1].replacingOccurrences(of: ">", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                                chemicalAttribute = t.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "=", with: ":").components(separatedBy: " ")
+                                chemicalAttribute = t.replacingOccurrences(of: "\"", with: "").components(separatedBy: " ")
+                                var tab : [String] = []
+                                for item in chemicalAttribute {
+                                    tab.append(item.replacingOccurrences(of: "=", with: ": "))
+                                }
+                                chemicalAttribute = tab;
+                                
                             }else if l.range(of:"formula") != nil {
                                 formula = l.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression , range: nil).trimmingCharacters(in: .whitespacesAndNewlines)
                             }
