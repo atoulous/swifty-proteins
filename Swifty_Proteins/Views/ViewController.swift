@@ -57,13 +57,11 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    
+   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected licands : \(filteredProteins[indexPath.row])")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "proteinCell") as! proteinTableViewCell
-        print (cell.isUserInteractionEnabled)
-        cell.isUserInteractionEnabled = false
-        print(cell.isUserInteractionEnabled)
-        self.doRequestData(ligands: filteredProteins[indexPath.row])
+        self.performSegue(withIdentifier: "3Dsegue", sender: self.filteredProteins[indexPath.row])
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -71,7 +69,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
             let vc = segue.destination as! protein3DViewController
             vc.ligand = self.ligand
             vc.color = self.color
-            vc.title = ligand.atoms[0].nameLigand
+            vc.title = sender as! String
+            
         }
     }
     
@@ -146,7 +145,8 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                     
                 }
             }
-        }.resume()
+        }
+        task.resume()
     }
     
   

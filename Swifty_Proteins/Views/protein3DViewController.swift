@@ -77,6 +77,82 @@ class protein3DViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    
+    func doRequest(ligands: String){
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let baseUrl =  "http://file.rcsb.org/ligands/download/"
+        let url = URL(string : baseUrl + ligands + "_model.pdb")
+        let request = NSMutableURLRequest(url : url!)
+        request.httpMethod = "GET"
+        print("Request on \(request.url!)")
+        let task = URLSession.shared.dataTask(with: url!){
+            data, response, error in
+            if error != nil{
+                let alertController =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.present(alertController, animated: true, completion: nil)
+            }else if let d = data{
+                if let lig =  String(data: d, encoding: String.Encoding.utf8)?.components(separatedBy: "\n") {
+                    
+                    DispatchQueue.main.async {
+                        self.ligand.removeAll()
+                        self.ligand.addItems(lig: lig)
+                        self.group.leave()
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }
+                    
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func doRequestData(ligands: String){
+        // activity monitor when request on
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        let baseUrl =  "https://www.rcsb.org/pdb/rest/describeHet?chemicalID="
+        let url = URL(string : baseUrl + ligands)
+        let request = NSMutableURLRequest(url : url!)
+        request.httpMethod = "GET"
+        print("Request on \(request.url!)")
+        let task = URLSession.shared.dataTask(with: url!){
+            data, response, error in
+            if error != nil{
+                let alertController =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.present(alertController, animated: true, completion: nil)
+            }else if let d = data{
+                if let lig =  String(data: d, encoding: String.Encoding.utf8)?.components(separatedBy: "\n") {
+                    if lig[1].range(of: "error") == nil {
+                        var chemicalName = String()
+                        var chemicalAttribute = [String]()
+                        var formula = String()
+                        for l in lig{
+                            if l.range(of:"chemicalName") != nil {
+                                chemicalName = l.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression , range: nil).trimmingCharacters(in: .whitespacesAndNewlines)
+                            }else if l.range(of:"chemicalID") != nil {
+                                var s = l.components(separatedBy: "<ligand ")
+                                let t = s[1].replacingOccurrences(of: ">", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                                chemicalAttribute = t.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "=", with: ":").components(separatedBy: " ")
+                            }else if l.range(of:"formula") != nil {
+                                formula = l.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression , range: nil).trimmingCharacters(in: .whitespacesAndNewlines)
+                            }
+                        }
+                        self.ligand.ligdata = ligData(chemicalID: chemicalAttribute[0], chemicalName: chemicalName, type: chemicalAttribute[1],weight: chemicalAttribute[2], formula: formula)
+                    }
+                    DispatchQueue.main.async {
+                        self.doRequest(ligands: ligands)
+                    }
+                    
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    let group = DispatchGroup()
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
@@ -85,10 +161,15 @@ class protein3DViewController: UIViewController {
         gameScene.rootNode.enumerateChildNodes { (node, stop) -> Void in
             node.removeFromParentNode()
         }
-        setDataInfo()
-        getMinMax()
-        changePositionInNewRpere()
-        createLigand()
+        group.enter()
+        doRequestData(ligands: self.title!)
+        group.notify(queue: .main) {
+            self.setDataInfo()
+            self.getMinMax()
+            self.changePositionInNewRpere()
+            self.createLigand()
+        }
+        
     }
     
     func setDataInfo(){
