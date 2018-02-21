@@ -18,6 +18,7 @@ class protein3DViewController: UIViewController {
     var ligandNode: SCNNode!
     var color: [String:String]!
     var hydHasToDisplay = true
+    var isStickDisplay = false
     var tapgesture: UITapGestureRecognizer!
     
     
@@ -32,9 +33,9 @@ class protein3DViewController: UIViewController {
     var newRepere : SCNVector3!
     
     
+    @IBOutlet weak var aLabel: UILabel!
     @IBOutlet weak var aButton: UIButton!
     @IBAction func atomButton(_ sender: Any) {
-        print("hit")
         if gameView.allowsCameraControl == true {
             gameView.allowsCameraControl = false
             gameView.addGestureRecognizer(tapgesture)
@@ -44,6 +45,14 @@ class protein3DViewController: UIViewController {
             gameView.removeGestureRecognizer(tapgesture)
             aButton.backgroundColor = nil
         }
+    }
+    
+    @IBAction func stickButton(_ sender: UIBarButtonItem) {
+        isStickDisplay = isStickDisplay == true ? false : true
+        gameScene.rootNode.enumerateChildNodes { (node, stop) -> Void in
+            node.removeFromParentNode()
+        }
+        self.createLigand()
     }
     
     @IBAction func hydroButton(_ sender: Any) {
@@ -62,8 +71,6 @@ class protein3DViewController: UIViewController {
             let imageToShare = [ saveImg ]
             let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
-            
-            print(activityViewController)
             self.present(activityViewController, animated: true, completion: nil)
         }))
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -75,6 +82,9 @@ class protein3DViewController: UIViewController {
         initView()
         initScene()
         initCamera()
+        gameScene.rootNode.enumerateChildNodes { (node, stop) -> Void in
+            node.removeFromParentNode()
+        }
         setDataInfo()
         getMinMax()
         changePositionInNewRpere()
@@ -82,12 +92,13 @@ class protein3DViewController: UIViewController {
     }
     
     func setDataInfo(){
-        print(self.ligand.ligdata)
-        self.chemicalIdLabel.text = self.ligand.ligdata.chemicalID
-        self.typeLabel.text = self.ligand.ligdata.type
-        self.weightLabel.text = self.ligand.ligdata.weight
-        self.formulaLabel.text = self.ligand.ligdata.formula
-        self.chemicalNameLabel.text = self.ligand.ligdata.chemicalName
+        if let ldata = self.ligand.ligdata{
+            self.chemicalIdLabel.text = ldata.chemicalID
+            self.typeLabel.text = ldata.type
+            self.weightLabel.text = ldata.weight
+            self.formulaLabel.text = ldata.formula
+            self.chemicalNameLabel.text = ldata.chemicalName
+        }
     }
     
     func getMinMax(){
@@ -127,16 +138,15 @@ class protein3DViewController: UIViewController {
         self.view.addSubview(gameView)
         gameView.backgroundColor = UIColor.darkGray
         gameView.addSubview(aButton)
+        gameView.addSubview(aLabel)
         gameView.addSubview(dataView)
     }
     
     func initScene(){
-        print("init")
         gameScene = SCNScene()
         gameView.scene = gameScene
         gameView.isPlaying = true
         tapgesture = UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(gesture:)))
-//        tapgesture.numberOfTapsRequired = 2
     }
     
     func initCamera(){
@@ -150,8 +160,9 @@ class protein3DViewController: UIViewController {
             let hits = gameView.hitTest(location, options: nil)
             if !hits.isEmpty{
                 let tappedNode = hits.first?.node
-                if tappedNode?.name != nil{
-                    aButton.titleLabel?.text = tappedNode?.name!
+                if let na = tappedNode?.name{
+                    print(na)
+                    aLabel.text = na
                 }
             }
         }
@@ -170,6 +181,9 @@ class protein3DViewController: UIViewController {
             let geometryNode = SCNNode(geometry: geometry)
             geometryNode.position = atom.position
             geometryNode.name = atom.nameAtom
+            if isStickDisplay{
+                geometryNode.isHidden = true
+            }
             ligandNode.addChildNode(geometryNode)
         }
         for conect in self.ligand.conects{
@@ -192,7 +206,7 @@ class protein3DViewController: UIViewController {
                 let zalign = SCNNode()
                 zalign.eulerAngles.x = Float(Double.pi/2)
                 let geotube:SCNGeometry = SCNTube(innerRadius: 0.1, outerRadius: 0.1, height: CGFloat(height))
-                geotube.materials.first?.diffuse.contents = UIColor.gray
+                geotube.materials.first?.diffuse.contents = UIColor.darkGray
                 let tube = SCNNode(geometry:geotube)
                 tube.position.y = -height/2
                 zalign.addChildNode(tube)

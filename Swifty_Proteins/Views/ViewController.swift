@@ -59,7 +59,10 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected licands : \(filteredProteins[indexPath.row])")
-       
+        let cell = tableView.dequeueReusableCell(withIdentifier: "proteinCell") as! proteinTableViewCell
+        print (cell.isUserInteractionEnabled)
+        cell.isUserInteractionEnabled = false
+        print(cell.isUserInteractionEnabled)
         self.doRequestData(ligands: filteredProteins[indexPath.row])
     }
     
@@ -78,6 +81,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         let url = URL(string : baseUrl + ligands + "_model.pdb")
         let request = NSMutableURLRequest(url : url!)
         request.httpMethod = "GET"
+        print("Request on \(request.url!)")
         let task = URLSession.shared.dataTask(with: url!){
             data, response, error in
             if error != nil{
@@ -91,8 +95,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                     DispatchQueue.main.async {
                         self.ligand.removeAll()
                         self.ligand.addItems(lig: lig)
-//                        print(self.ligand.atoms)
-                        //print(self.ligand.conects)
+
                         self.performSegue(withIdentifier: "3Dsegue", sender: self)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
@@ -110,6 +113,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         let url = URL(string : baseUrl + ligands)
         let request = NSMutableURLRequest(url : url!)
         request.httpMethod = "GET"
+        print("Request on \(request.url!)")
         let task = URLSession.shared.dataTask(with: url!){
             data, response, error in
             if error != nil{
@@ -119,15 +123,13 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                 self.present(alertController, animated: true, completion: nil)
             }else if let d = data{
                 if let lig =  String(data: d, encoding: String.Encoding.utf8)?.components(separatedBy: "\n") {
-                   
+                    if lig[1].range(of: "error") == nil {
                         var chemicalName = String()
                         var chemicalAttribute = [String]()
                         var formula = String()
-                        print()
                         for l in lig{
                             if l.range(of:"chemicalName") != nil {
                                chemicalName = l.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression , range: nil).trimmingCharacters(in: .whitespacesAndNewlines)
-                                print(chemicalName)
                             }else if l.range(of:"chemicalID") != nil {
                                 var s = l.components(separatedBy: "<ligand ")
                                 let t = s[1].replacingOccurrences(of: ">", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
@@ -136,18 +138,15 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
                                 formula = l.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression , range: nil).trimmingCharacters(in: .whitespacesAndNewlines)
                             }
                         }
-                        self.ligand.ligdata = ligData(chemicalID: chemicalAttribute[0], chemicalName: chemicalName, type: chemicalAttribute[1],
-                                                      weight: chemicalAttribute[2], formula: formula)
+                        self.ligand.ligdata = ligData(chemicalID: chemicalAttribute[0], chemicalName: chemicalName, type: chemicalAttribute[1],weight: chemicalAttribute[2], formula: formula)
+                    }
                     DispatchQueue.main.async {
-                        print(self.ligand.ligdata)
                         self.doRequest(ligands: ligands)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                     
                 }
             }
-        }
-        task.resume()
+        }.resume()
     }
     
   

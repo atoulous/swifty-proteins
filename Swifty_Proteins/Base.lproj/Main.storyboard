@@ -19,9 +19,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="9c1-bF-EtN">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="9c1-bF-EtN">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" red="0.94668370485305786" green="0.38254177570343018" blue="0.12076923996210098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
@@ -53,6 +52,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="9c1-bF-EtN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="40L-5U-QZt"/>
+                            <constraint firstItem="9c1-bF-EtN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oo7-ab-5C3"/>
+                            <constraint firstItem="9c1-bF-EtN" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="R5g-er-h3w"/>
+                            <constraint firstItem="9c1-bF-EtN" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="kUg-RY-IOH"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="List of Proteins" id="BhP-F7-GJM">
@@ -84,6 +89,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pft-pV-0cj">
+                                <rect key="frame" x="295" y="587" width="80" height="80"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                <color key="textColor" red="0.8671955373857998" green="0.90361884715025909" blue="0.885135262067267" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsU-ub-T96">
                                 <rect key="frame" x="295" y="587" width="80" height="80"/>
                                 <constraints>
@@ -91,12 +102,12 @@
                                     <constraint firstAttribute="height" constant="80" id="xbj-ez-SYb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="38"/>
-                                <state key="normal" title="A">
+                                <state key="normal">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="atomButton:" destination="Ily-tZ-EnP" eventType="touchUpInside" id="bWg-G7-5Pm"/>
+                                    <action selector="atomButton:" destination="Ily-tZ-EnP" eventType="touchUpInside" id="A6c-wL-v8g"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jet-pG-WFh">
@@ -106,35 +117,35 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="chemicalID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WKd-FS-rua">
                                         <rect key="frame" x="0.0" y="4" width="231" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.84012710492227982" green="0.84012710492227982" blue="0.84012710492227982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OV1-NW-9bR">
                                         <rect key="frame" x="0.0" y="29" width="231" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.84012710492227982" green="0.84012710492227982" blue="0.84012710492227982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GkI-DD-AFg">
                                         <rect key="frame" x="0.0" y="58" width="231" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.84012710492227982" green="0.84012710492227982" blue="0.84012710492227982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="formula" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rc-Zc-S2u">
                                         <rect key="frame" x="0.0" y="87" width="231" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.84012710492227982" green="0.84012710492227982" blue="0.84012710492227982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fBW-gG-y6C">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="no data" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fBW-gG-y6C">
                                         <rect key="frame" x="0.0" y="116" width="231" height="58"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" red="0.84012710489999998" green="0.84012710489999998" blue="0.84012710489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -144,6 +155,10 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TsU-ub-T96" firstAttribute="trailing" secondItem="rxY-dd-O0b" secondAttribute="trailing" id="3GV-Vl-yjl"/>
+                            <constraint firstItem="Pft-pV-0cj" firstAttribute="centerY" secondItem="TsU-ub-T96" secondAttribute="centerY" id="7Pb-rG-Smf"/>
+                            <constraint firstItem="Pft-pV-0cj" firstAttribute="width" secondItem="TsU-ub-T96" secondAttribute="width" id="Aff-gR-Jco"/>
+                            <constraint firstItem="Pft-pV-0cj" firstAttribute="height" secondItem="TsU-ub-T96" secondAttribute="height" id="KNY-va-6u1"/>
+                            <constraint firstItem="Pft-pV-0cj" firstAttribute="centerX" secondItem="TsU-ub-T96" secondAttribute="centerX" id="O2A-pI-1et"/>
                             <constraint firstItem="TsU-ub-T96" firstAttribute="bottom" secondItem="rxY-dd-O0b" secondAttribute="bottom" id="TzI-ED-LrA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rxY-dd-O0b"/>
@@ -156,16 +171,23 @@
                                     <action selector="shareButton:" destination="Ily-tZ-EnP" id="JWA-fB-XVi"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Hydrogen" style="done" id="MsY-cK-ybo">
+                            <barButtonItem title="Hydro" style="done" id="MsY-cK-ybo">
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="hydroButton:" destination="Ily-tZ-EnP" id="wz2-Na-Tkv"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem title="Stick" style="done" id="Xd4-4b-80e">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="stickButton:" destination="Ily-tZ-EnP" id="Pab-E4-moJ"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="aButton" destination="TsU-ub-T96" id="aJP-Ng-WvC"/>
+                        <outlet property="aButton" destination="TsU-ub-T96" id="ZBC-9V-g5F"/>
+                        <outlet property="aLabel" destination="Pft-pV-0cj" id="Kpw-aM-2So"/>
                         <outlet property="chemicalIdLabel" destination="WKd-FS-rua" id="FlS-3T-Hsg"/>
                         <outlet property="chemicalNameLabel" destination="fBW-gG-y6C" id="Ods-Zg-f23"/>
                         <outlet property="dataView" destination="jet-pG-WFh" id="AN7-eh-Eq0"/>

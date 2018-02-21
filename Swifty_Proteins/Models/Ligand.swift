@@ -34,7 +34,7 @@ struct ligData{
 class Ligand {
     var atoms = [Atom]()
     var conects = [Conect]()
-    var ligdata:ligData!
+    var ligdata:ligData?
     
     func addItems(lig: [String]){
         for l in lig {
